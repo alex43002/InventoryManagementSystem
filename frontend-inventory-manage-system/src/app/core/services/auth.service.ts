@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { AuthService as Auth0Service } from '@auth0/auth0-angular';
 import { Observable } from 'rxjs';
 
@@ -6,46 +7,61 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class AuthService {
-  constructor(private auth0: Auth0Service) {}
+  constructor(private auth0: Auth0Service, private router: Router) {}
 
-  /**
-   * Trigger login with Auth0
-   */
+  LOGIN_CONSTANT = "/main";
+  
   login(): void {
-    this.auth0.loginWithRedirect();
+    this.auth0.isAuthenticated$.subscribe((isAuthenticated) => {
+      if (!isAuthenticated) {
+        this.auth0.loginWithRedirect({
+          authorizationParams: {
+            redirect_uri: window.location.origin,
+          },
+        });
+      }
+      else{
+        this.router.navigate([this.LOGIN_CONSTANT]);
+      }
+    });
   }
+  
 
-  /**
-   * Trigger logout with Auth0
-   * Redirects to the provided `returnTo` URL after logout
-   */
   logout(): void {
     this.auth0.logout({ logoutParams: { returnTo: document.location.origin } });
   }
 
-  /**
-   * Check if the user is authenticated
-   * Returns an Observable<boolean>
-   */
   isLoggedIn(): Observable<boolean> {
     return this.auth0.isAuthenticated$;
   }
 
-  /**
-   * Get user profile information
-   * Returns an Observable<any>
-   */
   getUserProfile(): Observable<any> {
     return this.auth0.user$;
   }
 
-  /**
-   * Handle the Auth0 redirect callback after login
-   */
   handleAuthCallback(): void {
-    this.auth0.handleRedirectCallback().subscribe({
-      next: () => console.log('Redirect callback handled successfully.'),
-      error: (err) => console.error('Error handling redirect callback:', err),
-    });
+    try {
+      const urlParams = new URLSearchParams(window.location.search);
+      const hasAuthParams = urlParams.has('code') && urlParams.has('state');
+  
+      if (hasAuthParams) {
+        this.auth0.handleRedirectCallback().subscribe({
+          next: () => {
+            console.log('Redirect callback handled successfully.')
+            this.router.navigate([this.LOGIN_CONSTANT]);
+          },
+          error: (err) => {
+            //console.error('Error handling redirect callback:', err);
+            localStorage.clear(); // Clear any invalid state
+          },
+        });
+      } else {
+        console.warn('No authentication parameters found in URL.');
+      }
+    } catch (error) {
+      console.error('Error during callback handling:', error);
+      localStorage.clear(); // Clear storage if an unexpected error occurs
+    }
   }
+  
 }
