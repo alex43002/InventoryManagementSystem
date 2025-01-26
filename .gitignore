@@ -1,0 +1,27 @@
+# Dependencies
+/frontend-inventory-manage-system/node_modules/
+/frontend-inventory-manage-system/package-lock.json
+
+# Angular build output
+/frontend-inventory-manage-system/dist/
+/frontend-inventory-manage-system/tmp/
+
+# IDE and editor files
+/frontend-inventory-manage-system/.idea/
+/frontend-inventory-manage-system/.vscode/
+/frontend-inventory-manage-system/*.suo
+/frontend-inventory-manage-system/*.ntvs*
+/frontend-inventory-manage-system/*.njsproj
+/frontend-inventory-manage-system/*.tsbuildinfo
+
+# Logs
+/frontend-inventory-manage-system/npm-debug.log*
+/frontend-inventory-manage-system/yarn-debug.log*
+/frontend-inventory-manage-system/yarn-error.log*
+
+# Angular specific files
+/frontend-inventory-manage-system/.angular/cache/
+/frontend-inventory-manage-system/.angular/config.json
+
+# Environment files
+/frontend-inventory-manage-system/src/environments/environment*.ts
