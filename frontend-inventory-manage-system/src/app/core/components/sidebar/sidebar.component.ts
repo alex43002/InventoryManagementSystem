@@ -15,13 +15,13 @@ import { CommonModule } from '@angular/common';
       state(
         'in',
         style({
-          transform: 'translateX(0)',
+          width: '240px',
         })
       ),
       state(
         'out',
         style({
-          transform: 'translateX(-100%)',
+          width: '64px',
         })
       ),
       transition('in <=> out', [animate('300ms ease-in-out')]),
@@ -40,11 +40,12 @@ export class SidebarComponent implements OnInit, AfterViewInit {
   isSidebarOpen = false;
   activeRoute = '';
   menuItems = [
-    { path: '/main/sku-crud', label: 'SKU Creator', icon: 'dashboard' },
-    { path: '/main/inventory', label: 'Inventory', icon: 'person' },
-    { path: '/main/inventory-crud', label: 'Inventory Adjustments', icon: 'settings' },
-    { path: '/main/reporting', label: 'Reporting', icon: 'help' }
+    { path: '/main/sku-crud', label: 'SKU Creator', icon: 'add_circle_outline' }, // Represents creation and addition
+    { path: '/main/inventory', label: 'Inventory', icon: 'inventory' }, // Matches inventory management
+    { path: '/main/inventory-crud', label: 'Inventory Adjustments', icon: 'edit_note' }, // Editing or adjusting notes
+    { path: '/main/reporting', label: 'Reporting', icon: 'bar_chart' } // Suitable for analytics or reporting
   ];
+  
 
   toggleSidebar() {
     this.isSidebarOpen = !this.isSidebarOpen;
