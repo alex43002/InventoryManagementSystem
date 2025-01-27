@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from './core/services/auth.service';
-import { Router, RouterOutlet } from '@angular/router';
+import { Router, NavigationEnd, RouterOutlet } from '@angular/router';
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-root',
@@ -13,12 +14,22 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
     this.authService.handleAuthCallback();
 
-    this.authService.isLoggedIn().subscribe((isAuthenticated) => {
-      if (isAuthenticated) {
-        this.router.navigate(['/main']); // Navigate to main page if authenticated
-      } else {
-        this.router.navigate(['/login']); // Redirect to login if not authenticated
-      }
-    });
+    // Wait for the router to resolve the current URL
+    this.router.events
+      .pipe(filter((event) => event instanceof NavigationEnd))
+      .subscribe(() => {
+        this.authService.isLoggedIn().subscribe((isAuthenticated) => {
+          if (isAuthenticated) {
+            // Redirect only if not already in a /main route
+            if (!this.router.url.startsWith('/main')) {
+              console.log('Redirecting to /main');
+              this.router.navigate(['/main']);
+            }
+          } else {
+            // Redirect to login if not authenticated
+            this.router.navigate(['/login']);
+          }
+        });
+      });
   }
 }
