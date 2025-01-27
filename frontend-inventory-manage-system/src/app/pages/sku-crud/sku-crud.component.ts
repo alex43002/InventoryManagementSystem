@@ -7,6 +7,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatTableModule } from '@angular/material/table';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-sku-crud',
@@ -20,6 +21,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     MatInputModule,
     CommonModule,
     ReactiveFormsModule,
+    MatTooltipModule
   ],
 })
 export class SkuCrudComponent implements OnInit {

@@ -35,16 +35,16 @@
       <ng-container matColumnDef="actions">
         <th mat-header-cell *matHeaderCellDef>Actions</th>
         <td mat-cell *matCellDef="let element">
-          <button mat-icon-button color="primary" *ngIf="editingItem?.id !== element.id" (click)="startEditItem(element)">
+          <button mat-icon-button color="primary" *ngIf="editingItem?.id !== element.id" (click)="startEditItem(element)" matTooltip="Edit">
             <mat-icon>edit</mat-icon>
           </button>
-          <button mat-icon-button color="accent" *ngIf="editingItem?.id === element.id" (click)="saveEdit()">
+          <button mat-icon-button color="accent" *ngIf="editingItem?.id === element.id" (click)="saveEdit()" matTooltip="Save">
             <mat-icon>save</mat-icon>
           </button>
-          <button mat-icon-button color="warn" (click)="deleteInventoryItem(element.id)">
+          <button mat-icon-button color="warn" (click)="deleteInventoryItem(element.id)" matTooltip="Delete">
             <mat-icon>delete</mat-icon>
           </button>
-          <button mat-icon-button color="default" *ngIf="editingItem?.id === element.id" (click)="cancelEdit()">
+          <button mat-icon-button color="default" *ngIf="editingItem?.id === element.id" (click)="cancelEdit()" matTooltip="Cancel">
             <mat-icon>cancel</mat-icon>
           </button>
         </td>
