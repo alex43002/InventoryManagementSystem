@@ -7,6 +7,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatTableModule } from '@angular/material/table';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-sku-crud',
@@ -20,6 +21,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     MatInputModule,
     CommonModule,
     ReactiveFormsModule,
+    MatTooltipModule
   ],
 })
 export class SkuCrudComponent implements OnInit {
@@ -30,13 +32,14 @@ export class SkuCrudComponent implements OnInit {
       name: 'Item A',
       createdBy: 'Admin',
       createdDate: new Date().toISOString(),
-      updatedBy: null,
-      updatedDate: null,
+      updatedBy: '',
+      updatedDate: '',
     },
   ];
 
   dataSource = new MatTableDataSource(this.skuList);
   skuForm: FormGroup;
+  editingItem: any = null;
 
   constructor(private fb: FormBuilder) {
     this.skuForm = this.fb.group({
@@ -55,13 +58,43 @@ export class SkuCrudComponent implements OnInit {
         name: this.skuForm.value.name,
         createdBy: 'Admin',
         createdDate: new Date().toISOString(),
-        updatedBy: null,
-        updatedDate: null,
+        updatedBy: '',
+        updatedDate: '',
       };
       this.skuList.push(newSku);
       this.dataSource.data = this.skuList; // Update the data source
       this.skuForm.reset();
     }
+  }
+
+  startEditItem(item: any): void {
+    this.editingItem = item;
+    this.skuForm.patchValue({
+      sku: item.sku,
+      name: item.name,
+    });
+  }
+
+  saveEdit(): void {
+    if (this.skuForm.valid && this.editingItem) {
+      const index = this.skuList.findIndex((item) => item.id === this.editingItem.id);
+      if (index !== -1) {
+        this.skuList[index] = {
+          ...this.skuList[index],
+          sku: this.skuForm.value.sku,
+          name: this.skuForm.value.name,
+          updatedBy: 'Admin',
+          updatedDate: new Date().toISOString(),
+        };
+        this.dataSource.data = this.skuList; // Update the data source
+      }
+      this.cancelEdit();
+    }
+  }
+
+  cancelEdit(): void {
+    this.editingItem = null;
+    this.skuForm.reset();
   }
 
   deleteSku(id: number): void {
