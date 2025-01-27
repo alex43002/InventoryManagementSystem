@@ -7,7 +7,6 @@ import { MatInputModule } from '@angular/material/input';
 import { MatTableModule } from '@angular/material/table';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
-import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-sku-crud',
@@ -21,53 +20,52 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     MatInputModule,
     CommonModule,
     ReactiveFormsModule,
-    MatTooltipModule
   ],
 })
 export class SkuCrudComponent implements OnInit {
-  inventoryList = [
-    { id: 1, sku: '1234567890123', name: 'Item A', quantity: 10 },
-    { id: 2, sku: '9876543210987', name: 'Item B', quantity: 15 },
-    { id: 3, sku: '4567891234567', name: 'Item C', quantity: 20 },
+  skuList = [
+    {
+      id: 1,
+      sku: '1234567890123',
+      name: 'Item A',
+      createdBy: 'Admin',
+      createdDate: new Date().toISOString(),
+      updatedBy: null,
+      updatedDate: null,
+    },
   ];
 
-  dataSource = new MatTableDataSource(this.inventoryList);
-  editForm: FormGroup;
-  editingItem: any = null;
+  dataSource = new MatTableDataSource(this.skuList);
+  skuForm: FormGroup;
 
   constructor(private fb: FormBuilder) {
-    this.editForm = this.fb.group({
-      quantity: ['', [Validators.required, Validators.min(0)]],
+    this.skuForm = this.fb.group({
+      sku: ['', [Validators.required, Validators.minLength(13), Validators.maxLength(13)]],
+      name: ['', [Validators.required, Validators.minLength(3)]],
     });
   }
 
   ngOnInit(): void {}
 
-  startEditItem(item: any): void {
-    this.editingItem = item;
-    this.editForm.patchValue({ quantity: item.quantity });
-  }
-
-  saveEdit(): void {
-    if (this.editForm.valid && this.editingItem) {
-      const index = this.inventoryList.findIndex(
-        (item) => item.id === this.editingItem.id
-      );
-      if (index !== -1) {
-        this.inventoryList[index].quantity = this.editForm.value.quantity;
-        this.dataSource.data = this.inventoryList;
-      }
-      this.cancelEdit();
+  addSku(): void {
+    if (this.skuForm.valid) {
+      const newSku = {
+        id: this.skuList.length + 1,
+        sku: this.skuForm.value.sku,
+        name: this.skuForm.value.name,
+        createdBy: 'Admin',
+        createdDate: new Date().toISOString(),
+        updatedBy: null,
+        updatedDate: null,
+      };
+      this.skuList.push(newSku);
+      this.dataSource.data = this.skuList; // Update the data source
+      this.skuForm.reset();
     }
   }
 
-  cancelEdit(): void {
-    this.editingItem = null;
-    this.editForm.reset();
-  }
-
-  deleteInventoryItem(id: number): void {
-    this.inventoryList = this.inventoryList.filter((item) => item.id !== id);
-    this.dataSource.data = this.inventoryList;
+  deleteSku(id: number): void {
+    this.skuList = this.skuList.filter((sku) => sku.id !== id);
+    this.dataSource.data = this.skuList; // Update the data source
   }
 }
