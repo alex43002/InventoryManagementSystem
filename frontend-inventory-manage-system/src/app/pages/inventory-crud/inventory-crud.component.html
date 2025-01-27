@@ -1,0 +1,56 @@
+<div class="sku-crud">
+    <h1>SKU Inventory Management</h1>
+  
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+      <!-- ID Column -->
+      <ng-container matColumnDef="id">
+        <th mat-header-cell *matHeaderCellDef>ID</th>
+        <td mat-cell *matCellDef="let element">{{ element.id }}</td>
+      </ng-container>
+  
+      <!-- SKU Column -->
+      <ng-container matColumnDef="sku">
+        <th mat-header-cell *matHeaderCellDef>SKU</th>
+        <td mat-cell *matCellDef="let element">{{ element.sku }}</td>
+      </ng-container>
+  
+      <!-- Name Column -->
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef>Name</th>
+        <td mat-cell *matCellDef="let element">{{ element.name }}</td>
+      </ng-container>
+  
+      <!-- Quantity Column -->
+      <ng-container matColumnDef="quantity">
+        <th mat-header-cell *matHeaderCellDef>Quantity</th>
+        <td mat-cell *matCellDef="let element">
+          <span *ngIf="editingItem?.id !== element.id">{{ element.quantity }}</span>
+          <form *ngIf="editingItem?.id === element.id" [formGroup]="editForm" (ngSubmit)="saveEdit()">
+            <input matInput type="number" formControlName="quantity" placeholder="Quantity" />
+          </form>
+        </td>
+      </ng-container>
+  
+      <!-- Actions Column -->
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef>Actions</th>
+        <td mat-cell *matCellDef="let element">
+          <button mat-icon-button color="primary" *ngIf="editingItem?.id !== element.id" (click)="startEditItem(element)" matTooltip="Edit">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-icon-button color="accent" *ngIf="editingItem?.id === element.id" (click)="saveEdit()" matTooltip="Save">
+            <mat-icon>save</mat-icon>
+          </button>
+          <button mat-icon-button color="warn" (click)="deleteInventoryItem(element.id)" matTooltip="Delete">
+            <mat-icon>delete</mat-icon>
+          </button>
+          <button mat-icon-button color="default" *ngIf="editingItem?.id === element.id" (click)="cancelEdit()" matTooltip="Cancel">
+            <mat-icon>cancel</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+  
+      <tr mat-header-row *matHeaderRowDef="['id', 'sku', 'name', 'quantity', 'actions']"></tr>
+      <tr mat-row *matRowDef="let row; columns: ['id', 'sku', 'name', 'quantity', 'actions'];"></tr>
+    </table>
+  </div>
