@@ -1,4 +1,15 @@
 .sidenav-container {
-    width: 250px;
+    height: 100%; /* Ensure full height */
+    display: flex;
+  }
+  
+  mat-sidenav {
+    width: 250px; /* Sidebar width */
+    background-color: #f4f4f4; /* Background color */
+    border-right: 1px solid #ddd; /* Optional: Add border for separation */
+  }
+  
+  mat-sidenav-container {
+    flex: 1; /* Ensures the container takes available space */
   }
   
