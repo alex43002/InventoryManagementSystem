@@ -1,0 +1,14 @@
+<mat-toolbar color="primary" class="top-bar">
+    <div class="logo">
+      <img src="https://via.placeholder.com/100x40" alt="Company Logo" />
+    </div>
+    <span class="spacer"></span>
+    <button mat-icon-button [matMenuTriggerFor]="menu">
+      <mat-icon>account_circle</mat-icon>
+    </button>
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item (click)="showUserInfo()">User Info</button>
+      <button mat-menu-item (click)="logout()">Logout</button>
+    </mat-menu>
+  </mat-toolbar>
+  
