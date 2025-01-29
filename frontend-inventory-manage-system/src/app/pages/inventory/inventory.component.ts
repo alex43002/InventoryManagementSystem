@@ -2,13 +2,10 @@ import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-inventory',
+  templateUrl: './inventory.component.html',
+  styleUrls: ['./inventory.component.scss'],
+  standalone: true,
   imports: [],
-  template: `
-    <p>
-      inventory works!
-    </p>
-  `,
-  styles: ``
 })
 export class InventoryComponent {
 
