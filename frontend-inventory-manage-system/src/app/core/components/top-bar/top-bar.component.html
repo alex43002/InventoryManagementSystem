@@ -1,6 +1,32 @@
 <mat-toolbar color="primary" class="top-bar">
     <div class="logo">
-      <img src="https://via.placeholder.com/100x40" alt="Company Logo" />
+      <svg
+        viewBox="0 0 200 200"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+    >
+        <!-- Background Circle -->
+        <circle cx="100" cy="100" r="95" stroke="#2C3E50" stroke-width="10" fill="#ECF0F1" />
+
+        <!-- Warehouse Icon -->
+        <rect x="50" y="70" width="100" height="70" rx="10" fill="#3498DB" />
+        <rect x="60" y="80" width="80" height="10" fill="#2980B9" />
+        <rect x="70" y="95" width="20" height="30" fill="#ECF0F1" />
+        <rect x="110" y="95" width="20" height="30" fill="#ECF0F1" />
+
+        <!-- Checkmark -->
+        <polyline points="60,150 85,175 140,120" stroke="#27AE60" stroke-width="10" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+
+        <!-- Inventory Boxes -->
+        <rect x="55" y="115" width="20" height="15" fill="#F39C12" />
+        <rect x="125" y="115" width="20" height="15" fill="#F39C12" />
+
+        <!-- Text (Optional) -->
+        <text x="100" y="190" font-family="Arial" font-size="16" text-anchor="middle" fill="#2C3E50">
+            Inventory Manager
+        </text>
+    </svg>
+
     </div>
     <span class="spacer"></span>
     <button mat-icon-button [matMenuTriggerFor]="menu">
