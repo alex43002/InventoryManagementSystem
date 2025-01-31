@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-inventory',
@@ -7,7 +7,13 @@ import { Component } from '@angular/core';
   standalone: true,
   imports: [],
 })
-export class InventoryComponent {
-
+export class InventoryComponent implements OnInit{
   
+  
+  InventoryComponent(){
+    
+  }
+  
+  ngOnInit(): void {}
+
 }
