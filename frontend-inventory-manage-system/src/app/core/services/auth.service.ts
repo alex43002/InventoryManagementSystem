@@ -26,6 +26,10 @@ export class AuthService {
     });
   }
   
+  //For local development testing
+  getToken(): void {
+    this.auth0.getAccessTokenSilently().subscribe(val => console.log(val));
+  }
 
   logout(): void {
     this.auth0.logout({ logoutParams: { returnTo: document.location.origin } });
