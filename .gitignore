@@ -24,4 +24,6 @@
 /frontend-inventory-manage-system/.angular/config.json
 
 # Environment files
-/frontend-inventory-manage-system/src/environments/environment*.ts
+/frontend-inventory-manage-system/src/environments/environment.ts
+/frontend-inventory-manage-system/src/environments/environment.prod.ts
+

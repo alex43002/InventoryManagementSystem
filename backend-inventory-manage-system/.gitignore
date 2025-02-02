@@ -235,3 +235,4 @@ _Pvt_Extensions
 
 # Main appsettings file
 appsettings.json
+appsettings.prod.json
