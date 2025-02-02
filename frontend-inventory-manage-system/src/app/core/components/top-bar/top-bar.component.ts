@@ -3,6 +3,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-top-bar',
@@ -12,8 +13,13 @@ import { MatButtonModule } from '@angular/material/button';
   imports: [MatToolbarModule, MatIconModule, MatMenuModule, MatButtonModule],
 })
 export class TopBarComponent {
+
+  constructor(private authService: AuthService) {}
+  
+
   logout() {
     console.log('Logout clicked'); // Placeholder for now
+    this.authService.logout();
   }
 
   showUserInfo() {
