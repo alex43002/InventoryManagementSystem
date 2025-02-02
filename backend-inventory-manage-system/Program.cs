@@ -13,16 +13,28 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowSpecificOrigin",
-        builder =>
+    if (builder.Environment.IsDevelopment())
+    {
+        // Allow all origins in development
+        options.AddPolicy("AllowAllOrigins", policy =>
         {
-            builder
-            .WithOrigins("http://localhost:8080")
-            .AllowAnyMethod()
-            .AllowAnyHeader()
-            .AllowCredentials();
+            policy.AllowAnyOrigin()
+                  .AllowAnyMethod()
+                  .AllowAnyHeader();
         });
+    }
+    else
+    {
+        // Restrict origins in production (Replace with your production IPs/Domains)
+        options.AddPolicy("AllowSpecificOrigin", policy =>
+        {
+            policy.WithOrigins("https://your-production-domain.com", "https://your-production-ip")
+                  .AllowAnyMethod()
+                  .AllowAnyHeader();
+        });
+    }
 });
+
 
 var domain = $"https://{builder.Configuration["Auth0:Domain"]}/";
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -30,6 +42,17 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 {
     options.Authority = domain;
     options.Audience = builder.Configuration["Auth0:Audience"];
+    
+    // ✅ Add Token Validation Parameters
+    options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
+    {
+        ValidateIssuerSigningKey = true,
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidateLifetime = true,
+        ValidIssuer = domain,
+        ValidAudience = builder.Configuration["Auth0:Audience"]
+    };
 });
 
 builder.Services.AddAuthorization(options =>
@@ -58,7 +81,14 @@ app.UseHttpsRedirection();
 
 app.UseRouting();
 
-app.UseCors("AllowSpecificOrigin");
+if (app.Environment.IsDevelopment())
+{
+    app.UseCors("AllowAllOrigins");
+}
+else
+{
+    app.UseCors("AllowSpecificOrigin");
+}
 app.UseAuthentication();
 app.UseAuthorization();
 app.UseEndpoints(endpoints =>
