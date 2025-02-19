@@ -9,12 +9,12 @@ import { InventoryCrud } from '../models/inventory-crud.model';
 })
 export class InventoryCrudService {
 
-  private apiUrl = environment.apiUrl;
+  private apiUrl = environment.apiUrl + '/api';
 
   constructor(private http: HttpClient) {}
 
   getInventoryCrud(): Observable<InventoryCrud[]> {
-    return this.http.get<InventoryCrud[]>(`${this.apiUrl}/inventory/crud`); 
+    return this.http.get<InventoryCrud[]>(`${this.apiUrl}/inventory`); 
   }
 
 }

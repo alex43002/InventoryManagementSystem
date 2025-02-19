@@ -8,8 +8,17 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.IdentityModel.Logging;
 using WebAPIApplication;
+using WebAPIApplication.Services;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddSingleton<ILiteDbContext>(provider =>
+{
+    var databasePath = builder.Configuration.GetValue<string>("LiteDb:DatabasePath") ?? "MyData.db";
+    return new LiteDbContext(databasePath);
+});
+
+builder.Services.AddScoped<InventoryCrudService>();
 
 builder.Services.AddCors(options =>
 {
