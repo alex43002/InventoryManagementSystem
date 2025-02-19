@@ -2,7 +2,6 @@ import { Routes } from '@angular/router';
 import { LoginComponent } from './features/login/login.component';
 import { MainComponent } from './features/main/main.component';
 import { AuthGuard } from './core/guards/auth.guard';
-import { LayoutComponent } from './core/components/layout/layout.component';
 
 export const routes: Routes = [
   // Redirect root path to login
