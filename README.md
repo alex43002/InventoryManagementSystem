@@ -1,4 +1,3 @@
-```markdown
 # Inventory Management System
 
 Welcome to the Inventory Management System repository! This project consists of a frontend Angular application and a backend .NET Web API. The system uses Auth0 for user authentication and provides full inventory CRUD operations.
@@ -109,4 +108,3 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 ## Contributing
 
 Contributions are welcome! Please open an issue or submit a pull request if you'd like to help improve the project.
-```
