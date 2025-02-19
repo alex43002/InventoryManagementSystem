@@ -6,13 +6,14 @@ import { AuthModule } from '@auth0/auth0-angular';
 import { routes } from './app.routes';
 import { environment } from '../environments/environment';
 import { RouterModule } from '@angular/router';
+import { HttpClientModule } from '@angular/common/http';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
     provideAnimationsAsync(),
-    importProvidersFrom(RouterModule),
+    importProvidersFrom(RouterModule, HttpClientModule),
     importProvidersFrom(
       AuthModule.forRoot({
         domain: environment.auth.domain,
