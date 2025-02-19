@@ -1,52 +1,44 @@
-using System.Linq;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq;
 
 namespace WebAPIApplication.Controllers
 {
-    [Route("api")]
+    // Controller for public endpoints.
+    [Route("api/public")]
     [ApiController]
-    public class ApiController : ControllerBase
+    public class PublicController : ControllerBase
     {
-        [HttpGet("public")]
-        public IActionResult Public()
-        {
-            return Ok(new
-            {
-                Message = "Hello from a public endpoint! You don't need to be authenticated to see this."
-            });
-        }
+        [HttpGet]
+        public IActionResult Get() => Ok(new { Message = "Public endpoint" });
+    }
 
-        [HttpGet("private")]
+    // Controller for private endpoints.
+    [Route("api/private")]
+    [ApiController]
+    public class PrivateController : ControllerBase
+    {
+        [HttpGet]
         [Authorize]
-        public IActionResult Private()
-        {
-            return Ok(new
-            {
-                Message = "Hello from a private endpoint! You need to be authenticated to see this."
-            });
-        }
+        public IActionResult Get() => Ok(new { Message = "Private endpoint" });
+    }
 
-        [HttpGet("private-scoped")]
+    // Controller for endpoints requiring specific scopes.
+    [Route("api/private-scoped")]
+    [ApiController]
+    public class ScopedController : ControllerBase
+    {
+        [HttpGet]
         [Authorize("read:messages")]
-        public IActionResult Scoped()
-        {
-            return Ok(new
-            {
-                Message = "Hello from a private endpoint! You need to be authenticated and have a scope of read:messages to see this."
-            });
-        }
+        public IActionResult Get() => Ok(new { Message = "Scoped endpoint" });
+    }
 
-        // This is a helper action. It allows you to easily view all the claims of the token.
-        [HttpGet("claims")]
-        public IActionResult Claims()
-        {
-            return Ok(User.Claims.Select(c =>
-                new
-                {
-                    c.Type,
-                    c.Value
-                }));
-        }
+    // Controller for claims or other helper endpoints.
+    [Route("api/claims")]
+    [ApiController]
+    public class ClaimsController : ControllerBase
+    {
+        [HttpGet]
+        public IActionResult Get() => Ok(User.Claims.Select(c => new { c.Type, c.Value }));
     }
 }
